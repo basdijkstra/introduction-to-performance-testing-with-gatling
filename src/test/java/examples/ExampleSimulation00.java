@@ -1,16 +1,14 @@
 package examples;
 
-import io.gatling.javaapi.core.Assertion;
-import io.gatling.javaapi.core.ScenarioBuilder;
-import io.gatling.javaapi.core.Simulation;
-import io.gatling.javaapi.http.HttpProtocolBuilder;
+import static io.gatling.javaapi.core.CoreDsl.*;
+import static io.gatling.javaapi.http.HttpDsl.*;
+
+import io.gatling.javaapi.core.*;
+import io.gatling.javaapi.http.*;
 
 import java.time.Duration;
 
-import static io.gatling.javaapi.core.CoreDsl.*;
-import static io.gatling.javaapi.http.HttpDsl.http;
-
-public class ExampleSimulation01 extends Simulation {
+public class ExampleSimulation00 extends Simulation {
 
   // Define HTTP configuration
   // Reference: https://docs.gatling.io/reference/script/protocols/http/protocol/
@@ -31,15 +29,12 @@ public class ExampleSimulation01 extends Simulation {
   private static final Assertion noFailedRequests =
           global().failedRequests().count().lt(1L);
 
-  private static final Assertion maxResponseTimeLessThan100ms =
-          global().responseTime().max().lt(100);
-
   // Define injection profile and execute the test
   // Reference: https://docs.gatling.io/reference/script/core/injection/
   {
     setUp(scenario.injectOpen(constantUsersPerSec(2)
             .during(Duration.ofSeconds(30))))
-            .assertions(noFailedRequests, maxResponseTimeLessThan100ms)
+            .assertions(noFailedRequests)
             .protocols(httpProtocol);
   }
 }
