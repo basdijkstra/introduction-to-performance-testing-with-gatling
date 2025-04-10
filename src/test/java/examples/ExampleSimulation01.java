@@ -31,7 +31,7 @@ public class ExampleSimulation01 extends Simulation {
 
   // Define assertions
   // Reference: https://docs.gatling.io/reference/script/core/assertions/
-  private static final Assertion assertion =
+  private static final Assertion noFailedRequests =
           global().failedRequests().count().lt(1L);
 
   // Define injection profile and execute the test
@@ -39,7 +39,7 @@ public class ExampleSimulation01 extends Simulation {
   {
     setUp(scenario.injectOpen(constantUsersPerSec(usersPerSecond)
             .during(Duration.ofSeconds(durationInSeconds))))
-            .assertions(assertion)
+            .assertions(noFailedRequests)
             .protocols(httpProtocol);
   }
 }
