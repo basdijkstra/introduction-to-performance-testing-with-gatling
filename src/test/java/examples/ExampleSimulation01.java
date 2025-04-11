@@ -34,12 +34,15 @@ public class ExampleSimulation01 extends Simulation {
   private static final Assertion maxResponseTimeLessThan100ms =
           global().responseTime().max().lt(100);
 
+  private static final Assertion numberOfRequestsMadeIs60 =
+          global().allRequests().count().is(60L);
+
   // Define injection profile and execute the test
   // Reference: https://docs.gatling.io/reference/script/core/injection/
   {
     setUp(scenario.injectOpen(constantUsersPerSec(2)
             .during(Duration.ofSeconds(30))))
-            .assertions(noFailedRequests, maxResponseTimeLessThan100ms)
+            .assertions(noFailedRequests, maxResponseTimeLessThan100ms, numberOfRequestsMadeIs60)
             .protocols(httpProtocol);
   }
 }
